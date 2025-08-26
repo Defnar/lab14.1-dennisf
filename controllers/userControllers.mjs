@@ -1,6 +1,7 @@
 import {
   MissingLoginInfoError,
   MissingUserError,
+  UserAlreadyExistsError,
 } from "../errorHandlers/userErrors.mjs";
 import User from "../models/User.mjs";
 import jwt from "jsonwebtoken";
@@ -14,7 +15,7 @@ export const postUser = async (req, res) => {
     const emailExists = await User.exists({ email: newUser.email });
 
     if (emailExists) {
-      throw new Error("Email already exists");
+      throw new UserAlreadyExistsError("Email already exists");
     }
 
     const user = await User.create(newUser);
@@ -23,7 +24,12 @@ export const postUser = async (req, res) => {
 
     res.status(201).json(userOutput);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    if (err instanceof UserAlreadyExistsError)
+      res.status(400).json({ error: err.message });
+    else {
+      console.log(err);
+      res.status(500).json({ error: err.message });
+    }
   }
 };
 

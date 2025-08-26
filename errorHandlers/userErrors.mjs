@@ -11,3 +11,10 @@ export class MissingUserError extends Error {
         this.name= "MissingUserError"
     }
 }
+
+export class UserAlreadyExistsError extends Error {
+    constructor (message) {
+        super(message);
+        this.name = "UserAlreadyExistsError"
+    }
+}
