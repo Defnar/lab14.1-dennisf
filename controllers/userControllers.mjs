@@ -68,7 +68,7 @@ export const logIn = async (req, res) => {
         expiresIn: expiration
       });
 
-      res.json(token, user);
+      res.json({token, user});
     }
     else {
         throw new IncorrectLoginError("email and password mismatch");
