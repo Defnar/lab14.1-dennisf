@@ -28,6 +28,10 @@ UserSchema.pre("save", async (next) => {
   next();
 });
 
+UserSchema.methods.isCorrectPassword = async (password) => {
+    return bcrypt.compare(password, this.password);
+}
+
 const User = model("User", UserSchema);
 
 export default User;
