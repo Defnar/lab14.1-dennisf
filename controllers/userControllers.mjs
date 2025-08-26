@@ -1,6 +1,6 @@
 import {
   MissingLoginInfoError,
-  MissingUserError,
+  IncorrectLoginError,
   UserAlreadyExistsError,
 } from "../errorHandlers/userErrors.mjs";
 import User from "../models/User.mjs";
@@ -48,7 +48,7 @@ export const logIn = async (req, res) => {
 
     //check if user exists
     if (!user) {
-      throw new MissingUserError("User not found");
+      throw new IncorrectLoginError("email and password mismatch");
     }
 
     const match = await user.isCorrectPassword(password);
@@ -65,13 +65,16 @@ export const logIn = async (req, res) => {
 
       //create token
       const token = jwt.sign({ data: payload }, secret, {
-        expriesIn: expiration,
+        expiresIn: expiration
       });
 
-      res.json(token);
+      res.json(token, user);
+    }
+    else {
+        throw new IncorrectLoginError("email and password mismatch");
     }
   } catch (err) {
-    if (err instanceof MissingLoginInfoError || err instanceof MissingUserError)
+    if (err instanceof MissingLoginInfoError || err instanceof IncorrectLoginError)
       res.status(400).json({ error: err.message });
     else {
       console.log(err);

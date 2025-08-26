@@ -5,10 +5,10 @@ export class MissingLoginInfoError extends Error {
   }
 }
 
-export class MissingUserError extends Error {
+export class IncorrectLoginError extends Error {
     constructor (message) {
         super(message);
-        this.name= "MissingUserError"
+        this.name= "IncorrectLoginError"
     }
 }
 
