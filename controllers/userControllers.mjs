@@ -45,7 +45,7 @@ export const logIn = async (req, res) => {
       throw new MissingUserError("User not found");
     }
 
-    const match = user.isCorrectPassword(password);
+    const match = await user.isCorrectPassword(password);
 
     if (match) {
       //transform user into data for token
