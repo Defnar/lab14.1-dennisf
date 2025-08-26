@@ -9,13 +9,13 @@ const secret = process.env.JWT_SECRET;
 
 export const postUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const newUser = req.body;
 
-    const newUser = {
-      username: username,
-      email: email,
-      password: password,
-    };
+    const emailExists = await User.exists({ email: newUser.email });
+
+    if (emailExists) {
+      throw new Error("Email already exists");
+    }
 
     const user = await User.create(newUser);
 
