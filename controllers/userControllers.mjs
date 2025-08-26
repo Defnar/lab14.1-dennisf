@@ -10,8 +10,12 @@ export const postUser = async (req, res) => {
       password: password,
     };
 
-    await User.create(newUser);
+    const user = await User.create(newUser);
+
+    const userOutput = { username: user.username, email: user.email };
+
     console.log("user created successfully");
+    res.status(201).json(userOutput);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
