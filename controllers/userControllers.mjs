@@ -20,9 +20,8 @@ export const postUser = async (req, res) => {
 
     const user = await User.create(newUser);
 
-    const userOutput = { username: user.username, email: user.email };
-
-    res.status(201).json(userOutput);
+    
+    res.status(201).json(user);
   } catch (err) {
     if (err instanceof UserAlreadyExistsError)
       res.status(400).json({ error: err.message });

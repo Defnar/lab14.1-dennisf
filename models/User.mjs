@@ -28,6 +28,24 @@ UserSchema.pre("save", async function(next) {
   next();
 });
 
+/*
+this took a ton of research to figure out.
+for future Dennis reference:
+set here is telling the toJSON method new options under
+transform, and now the new transform options removes
+password from the returned document this is applied to
+documentation found under mongoose => Document.ToJSON,
+mongoose => Schema.set.
+set here only applies during converting tojson, great for
+responses
+*/
+UserSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  }
+})
+
 UserSchema.methods.isCorrectPassword = async function(password) {
   return bcrypt.compare(password, this.password);
 };
