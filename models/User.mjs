@@ -32,7 +32,8 @@ UserSchema.pre("save", async function(next) {
 this took a ton of research to figure out.
 for future Dennis reference:
 set here is telling the toJSON method new options under transform, and now the new transform options removes
-password from the returned document this is applied to documentation found under mongoose => Document.ToJSON, mongoose => Schema.set.
+password from the returned document this is applied to. 
+Mongoose documentation ound under document => Document.ToJSON, schema => Schema.set.
 set here only applies during converting tojson, great for responses.
 further reading, and launch point into research, found at
 https://medium.com/@mbasamahmad/hiding-mongooses-sensitive-data-with-tojson-in-node-js-6e90459ffb4e
